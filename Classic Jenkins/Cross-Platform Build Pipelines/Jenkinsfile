@@ -1,0 +1,6 @@
+library identifier: 'jenkins-pipeline-poc-library@main', 
+        retriever: modernSCM([$class: 'GitSCMSource', remote: 'https://github.com/nitinprabhakaran/jenkins-pipeline-poc-library.git'])
+
+crossPlatformBuild repoName: 'nitinprabhakaran/pi-poc-pipelines',
+                   linuxContext: 'm5', 
+                   windowsContext: 'm5'

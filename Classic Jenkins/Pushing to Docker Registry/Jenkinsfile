@@ -1,0 +1,33 @@
+def image
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    image = docker.build('nitinprabhakaran/pi:poc-pipelines', '--pull -f m5/Dockerfile m5')
+                }
+            }
+        }
+
+        stage('Smoke Test') {
+            steps {
+                script {
+                    container = image.run()
+                    container.stop()
+                }
+            }
+        }
+
+        stage('Push') {
+            steps {
+                script {
+                    withDockerRegistry([credentialsId: "docker_registry_priv", url: ""]) {
+                        image.push()
+                    }
+                }
+            }
+        }
+    }
+}
